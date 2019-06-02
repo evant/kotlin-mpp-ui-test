@@ -1,0 +1,2 @@
+include ':app', ':common', ':commonTest'
+rootProject.name='KotlinMultiplatformTest'

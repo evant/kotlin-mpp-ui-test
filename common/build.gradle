@@ -1,0 +1,41 @@
+apply plugin: 'kotlin-multiplatform'
+
+kotlin {
+    targets {
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
+                              ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'ios') {
+            binaries {
+                framework('Common')
+            }
+        }
+
+        fromPreset(presets.jvm, 'android')
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+        }
+
+        commonTest.dependencies {
+            api 'org.jetbrains.kotlin:kotlin-test-common'
+            api 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+        }
+
+        androidMain.dependencies {
+            api 'org.jetbrains.kotlin:kotlin-stdlib'
+        }
+
+        androidTest.dependencies {
+            api 'org.jetbrains.kotlin:kotlin-test-junit'
+            implementation 'androidx.test.espresso:espresso-core:3.2.0'
+        }
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}

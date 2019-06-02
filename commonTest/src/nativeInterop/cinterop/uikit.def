@@ -1,0 +1,5 @@
+language = Objective-C
+package = platform.UIKit
+headers = UIKit/UIKit.h
+
+headerFilter = UIKit/**

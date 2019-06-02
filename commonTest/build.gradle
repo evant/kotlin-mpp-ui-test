@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlin-native-cocoapods'
+
+version '1.0'
 
 android {
     compileSdkVersion 28
@@ -13,12 +16,31 @@ android {
 
 kotlin {
     targets {
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
-                              ? presets.iosArm64 : presets.iosX64
+//        def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos")   \
+//                                ? presets.iosArm64 : presets.iosX64
+        def iOSTarget = presets.iosX64
+
+        String[] frameworkSearchPaths = property('kotlin.native.cocoapods.paths.frameworks')
+                .split(" ")
+                .findAll { !it.isEmpty() }
+                .collect { it.replaceAll("^\"|\"\$", "") }
+
+        def frameworksDir = new File(frameworkSearchPaths[0]).absolutePath
 
         fromPreset(iOSTarget, 'ios') {
             binaries {
                 framework('CommonTest')
+            }
+
+            compilations.main {
+                it.cinterops {
+                    xctest {
+                        compilerOpts "-F${frameworksDir} -framework XCTest"
+                        linkerOpts "-F${frameworksDir} -framework XCTest"
+
+                        includeDirs "${frameworksDir}/XCTest.framework"
+                    }
+                }
             }
         }
     }
@@ -39,9 +61,26 @@ kotlin {
             api 'androidx.test.espresso:espresso-core:3.2.0'
         }
     }
+
+    cocoapods {
+        // Configure fields required by CocoaPods.
+        summary = "Common Tests"
+        homepage = "TODO"
+
+//        pod('EarlGrey', '~> 1.15.1')
+    }
 }
 
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
     compileClasspath
+}
+
+task iosTest(type: Exec) {
+    dependsOn(linkTestDebugExecutableIos)
+    def testExecutable = linkTestDebugExecutableIos.outputFile
+    inputs.file(testExecutable)
+    configure {
+        commandLine("xcrun", "simctl", "spawn", "iPhone 8", testExecutable.get())
+    }
 }

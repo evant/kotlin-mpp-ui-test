@@ -1,0 +1,23 @@
+PODS:
+  - commonTest (1.0):
+    - EarlGrey (~> 1.15.1)
+  - EarlGrey (1.15.1)
+
+DEPENDENCIES:
+  - commonTest (from `../../commonTest`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - EarlGrey
+
+EXTERNAL SOURCES:
+  commonTest:
+    :path: "../../commonTest"
+
+SPEC CHECKSUMS:
+  commonTest: b3504e65c6bd6fddaa977f232ac28bcf7a04ede6
+  EarlGrey: 81d0aa7d9471ce89319c3bb0bc5ec2c689a6a3a7
+
+PODFILE CHECKSUM: 8db0271b39badeabb4376950a49824f2ef4903a4
+
+COCOAPODS: 1.7.1

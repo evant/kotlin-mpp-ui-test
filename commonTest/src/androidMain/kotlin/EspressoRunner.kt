@@ -1,4 +1,4 @@
-@file:JvmName("EspressoTestRunner")
+package me.tatarka.kotlinmultiplatformtest
 
 import android.app.Activity
 import android.content.ComponentName
@@ -10,7 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import me.tatarka.kotlinmultiplatformtest.*
 
 object EspressoRunner : UiRunner {
     override fun launchScreen(name: ScreenName, block: Screen.() -> Unit) {

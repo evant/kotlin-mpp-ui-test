@@ -5,7 +5,7 @@ import kotlin.test.Test
 class CommonUiTest {
 
     @Test
-    fun uiTest() {
+    fun testUi() {
         launchMain {
             onView("text").hasText("Hello World!")
         }

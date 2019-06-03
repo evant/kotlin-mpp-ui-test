@@ -10,12 +10,19 @@ interface UiRunner {
 }
 
 interface Screen {
+
     fun onView(id: ViewId): View
 
     fun onView(id: String) = onView(ViewId(id))
+
+    fun onLabel(id: ViewId): Label
+
+    fun onLabel(id: String) = onLabel(ViewId(id))
 }
 
-interface View {
+interface View
+
+interface Label : View {
 
     fun hasText(text: String)
 }

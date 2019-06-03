@@ -41,6 +41,7 @@ kotlin {
                         includeDirs "${frameworksDir}/XCTest.framework"
                     }
                 }
+                extraOpts('-tr')
             }
         }
     }
@@ -54,11 +55,14 @@ kotlin {
             api 'org.jetbrains.kotlin:kotlin-test-annotations-common'
         }
 
-        androidMain.dependencies {
-            api 'org.jetbrains.kotlin:kotlin-stdlib'
-            api 'org.jetbrains.kotlin:kotlin-test-junit'
-            api 'androidx.test.ext:junit:1.1.1'
-            api 'androidx.test.espresso:espresso-core:3.2.0'
+        androidMain {
+            dependsOn(commonMain)
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib'
+                api 'org.jetbrains.kotlin:kotlin-test-junit'
+                api 'androidx.test.ext:junit:1.1.1'
+                api 'androidx.test.espresso:espresso-core:3.2.0'
+            }
         }
     }
 
@@ -67,7 +71,7 @@ kotlin {
         summary = "Common Tests"
         homepage = "TODO"
 
-//        pod('EarlGrey', '~> 1.15.1')
+        pod('EarlGrey', '~> 1.15.1')
     }
 }
 

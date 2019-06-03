@@ -3,6 +3,7 @@ package me.tatarka.kotlinmultiplatformtest
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.ViewInteraction
@@ -32,12 +33,19 @@ object EspressoRunner : UiRunner {
 }
 
 private class EspressoScreen : Screen {
+    override fun onLabel(id: ViewId): Label {
+        return EspressoLabel(Espresso.onView(ViewMatchers.withResourceName(id.android)))
+    }
+
     override fun onView(id: ViewId): View {
         return EspressoView(Espresso.onView(ViewMatchers.withResourceName(id.android)))
     }
 }
 
 private class EspressoView(private val delegate: ViewInteraction) : View {
+}
+
+private class EspressoLabel(private val delegate: ViewInteraction) : Label {
     override fun hasText(text: String) {
         delegate.check(matches(withText(text)))
     }

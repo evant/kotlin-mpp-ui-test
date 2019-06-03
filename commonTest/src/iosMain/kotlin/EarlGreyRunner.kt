@@ -1,12 +1,19 @@
 package me.tatarka.kotlinmultiplatformtest
 
-//import cocoapods.EarlGrey.EarlGrey
-//import cocoapods.EarlGrey.GREYElementInteraction
-//import cocoapods.EarlGrey.grey_accessibilityID
-//import cocoapods.EarlGrey.grey_text
+import cocoapods.EarlGrey.EarlGrey
+import cocoapods.EarlGrey.GREYElementInteraction
+import cocoapods.EarlGrey.grey_accessibilityID
+import cocoapods.EarlGrey.grey_text
 import platform.XCTest.XCUIApplication
+import kotlin.native.internal.test.testLauncherEntryPoint
 
 object EarlGreyRunner : UiRunner {
+
+    @Throws
+    fun runKotlinTests() {
+        uiRunner = this
+        testLauncherEntryPoint(emptyArray())
+    }
 
     override fun launchMain(block: Screen.() -> Unit) {
         launch(block)
@@ -22,19 +29,21 @@ object EarlGreyRunner : UiRunner {
     }
 }
 
-class EarlGreyScreen : Screen {
+private class EarlGreyScreen : Screen {
+    override fun onLabel(id: ViewId): Label {
+        return EarlGreyLabel(EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios)))
+    }
+
     override fun onView(id: ViewId): View {
-//        return EarlGreyView(EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios)))
-        return object : View {
-            override fun hasText(text: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        }
+        return EarlGreyView(EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios)))
     }
 }
 
-//class EarlGreyView(private val delegate: GREYElementInteraction) : View {
-//    override fun hasText(text: String) {
-//        delegate.assertWithMatcher(grey_text(text))
-//    }
-//}
+private class EarlGreyView(private val delegate: GREYElementInteraction) : View {
+}
+
+private class EarlGreyLabel(private val delegate: GREYElementInteraction) : Label {
+    override fun hasText(text: String) {
+        delegate.assertWithMatcher(grey_text(text))
+    }
+}

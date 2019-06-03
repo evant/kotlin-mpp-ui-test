@@ -7,7 +7,7 @@ class CommonUiTest {
     @Test
     fun testUi() {
         launchMain {
-            onView("text").hasText("Hello World!")
+            onLabel("text").hasText("Hello World!")
         }
     }
 }

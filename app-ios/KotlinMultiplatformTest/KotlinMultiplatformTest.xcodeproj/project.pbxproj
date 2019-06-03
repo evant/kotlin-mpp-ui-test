@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		20992E7B25E82CB4FE381D59 /* Pods_KotlinMultiplatformTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E07DF222476D740A7923976 /* Pods_KotlinMultiplatformTest.framework */; };
 		41E07D817CDD8AE0DA65ED56 /* Pods_KotlinMultiplatformTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79207B7D42460EB9CDA38DB8 /* Pods_KotlinMultiplatformTestTests.framework */; };
+		85D9616622A4A7F300300BA7 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9616522A4A7F300300BA7 /* EarlGrey.swift */; };
 		85EE5D1322A44B610045F0DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EE5D1222A44B610045F0DE /* AppDelegate.swift */; };
 		85EE5D1522A44B610045F0DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EE5D1422A44B610045F0DE /* ViewController.swift */; };
 		85EE5D1822A44B610045F0DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85EE5D1622A44B610045F0DE /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		3489BF257214749FA95C616F /* Pods-KotlinMultiplatformTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KotlinMultiplatformTest.debug.xcconfig"; path = "Target Support Files/Pods-KotlinMultiplatformTest/Pods-KotlinMultiplatformTest.debug.xcconfig"; sourceTree = "<group>"; };
 		426EE7AAECDC222126C453C5 /* Pods-KotlinMultiplatformTestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KotlinMultiplatformTestTests.debug.xcconfig"; path = "Target Support Files/Pods-KotlinMultiplatformTestTests/Pods-KotlinMultiplatformTestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		79207B7D42460EB9CDA38DB8 /* Pods_KotlinMultiplatformTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KotlinMultiplatformTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85D9616522A4A7F300300BA7 /* EarlGrey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		85EE5D0F22A44B610045F0DE /* KotlinMultiplatformTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotlinMultiplatformTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85EE5D1222A44B610045F0DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85EE5D1422A44B610045F0DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				85EE5D3222A44B630045F0DE /* KotlinMultiplatformTestUITests.swift */,
 				85EE5D3422A44B630045F0DE /* Info.plist */,
+				85D9616522A4A7F300300BA7 /* EarlGrey.swift */,
 			);
 			path = KotlinMultiplatformTestUITests;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85D9616622A4A7F300300BA7 /* EarlGrey.swift in Sources */,
 				85EE5D3322A44B630045F0DE /* KotlinMultiplatformTestUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

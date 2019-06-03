@@ -1,5 +1,7 @@
 package me.tatarka.kotlinmultiplatformtest
 
+import kotlin.reflect.KClass
+
 lateinit var uiRunner: UiRunner
 
 interface UiRunner {
@@ -11,20 +13,15 @@ interface UiRunner {
 
 interface Screen {
 
-    fun onView(id: ViewId): View
-
-    fun onView(id: String) = onView(ViewId(id))
-
-    fun onLabel(id: ViewId): Label
-
-    fun onLabel(id: String) = onLabel(ViewId(id))
+    fun <V: View> find(id: ViewId, type: KClass<V>, block: V.() -> Unit)
 }
 
-interface View
+inline fun <reified V: View> Screen.find(id: ViewId, noinline block: V.() -> Unit) {
+    find(id, V::class, block)
+}
 
-interface Label : View {
-
-    fun hasText(text: String)
+inline fun <reified V: View> Screen.find(id: String, noinline block: V.() -> Unit) {
+    find(ViewId(id), V::class, block)
 }
 
 fun launchMain(block: Screen.() -> Unit) {

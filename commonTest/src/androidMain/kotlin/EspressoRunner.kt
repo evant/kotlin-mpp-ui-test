@@ -3,7 +3,7 @@ package me.tatarka.kotlinmultiplatformtest
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
-import androidx.lifecycle.Lifecycle
+import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.ViewInteraction
@@ -11,6 +11,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlin.reflect.KClass
+import kotlin.test.assertEquals
 
 object EspressoRunner : UiRunner {
     override fun launchScreen(name: ScreenName, block: Screen.() -> Unit) {
@@ -33,20 +35,12 @@ object EspressoRunner : UiRunner {
 }
 
 private class EspressoScreen : Screen {
-    override fun onLabel(id: ViewId): Label {
-        return EspressoLabel(Espresso.onView(ViewMatchers.withResourceName(id.android)))
-    }
-
-    override fun onView(id: ViewId): View {
-        return EspressoView(Espresso.onView(ViewMatchers.withResourceName(id.android)))
-    }
-}
-
-private class EspressoView(private val delegate: ViewInteraction) : View {
-}
-
-private class EspressoLabel(private val delegate: ViewInteraction) : Label {
-    override fun hasText(text: String) {
-        delegate.check(matches(withText(text)))
+    override fun <V : View> find(id: ViewId, type: KClass<V>, block: V.() -> Unit) {
+        Espresso.onView(ViewMatchers.withResourceName(id.android)).check { view, noViewFoundException ->
+            if (view == null) {
+                throw noViewFoundException!!
+            }
+            block(view as V)
+        }
     }
 }

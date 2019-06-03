@@ -1,11 +1,14 @@
 package me.tatarka.kotlinmultiplatformtest
 
 import cocoapods.EarlGrey.EarlGrey
+import cocoapods.EarlGrey.GREYActionBlock
 import cocoapods.EarlGrey.GREYElementInteraction
 import cocoapods.EarlGrey.grey_accessibilityID
-import cocoapods.EarlGrey.grey_text
+import platform.UIKit.UILabel
 import platform.XCTest.XCUIApplication
+import platform.XCTest.XCUIElement
 import kotlin.native.internal.test.testLauncherEntryPoint
+import kotlin.reflect.KClass
 
 object EarlGreyRunner : UiRunner {
 
@@ -30,20 +33,12 @@ object EarlGreyRunner : UiRunner {
 }
 
 private class EarlGreyScreen : Screen {
-    override fun onLabel(id: ViewId): Label {
-        return EarlGreyLabel(EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios)))
-    }
-
-    override fun onView(id: ViewId): View {
-        return EarlGreyView(EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios)))
-    }
-}
-
-private class EarlGreyView(private val delegate: GREYElementInteraction) : View {
-}
-
-private class EarlGreyLabel(private val delegate: GREYElementInteraction) : Label {
-    override fun hasText(text: String) {
-        delegate.assertWithMatcher(grey_text(text))
+    override fun <V : View> find(id: ViewId, type: KClass<V>, block: V.() -> Unit) {
+        EarlGrey!!.selectElementWithMatcher(grey_accessibilityID(id.ios))
+            .performAction(GREYActionBlock("", null) { element, errorOrNil ->
+                val label = element as UILabel
+                block(label as V)
+                true
+            })
     }
 }

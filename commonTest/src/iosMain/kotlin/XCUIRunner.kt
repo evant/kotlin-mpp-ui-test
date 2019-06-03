@@ -1,9 +1,8 @@
 package me.tatarka.kotlinmultiplatformtest
 
 import platform.XCTest.XCUIApplication
-import platform.XCTest.XCUIElement
 import kotlin.native.internal.test.testLauncherEntryPoint
-import kotlin.test.assertEquals
+import kotlin.reflect.KClass
 
 class XCUIRunner : UiRunner {
 
@@ -25,19 +24,12 @@ class XCUIRunner : UiRunner {
 }
 
 class XCUIScreen(private val app: XCUIApplication) : Screen {
-    override fun onView(id: ViewId): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onLabel(id: ViewId): Label {
-        return XCUILabel(app.staticTexts.matchingIdentifier(id.ios).element)
-    }
-}
-
-class XCUILabel(private val element: XCUIElement) : Label {
-    override fun hasText(text: String) {
-        assertEquals(text, element.label)
+    override fun <V: View> find(id: ViewId, type: KClass<V>, block: V.() -> Unit) {
+        val element = if (type == TextElement::class) {
+            TextElement(app.staticTexts.matchingIdentifier(id.ios).element)
+        } else {
+            Element(app.otherElements.matchingIdentifier(id.ios).element)
+        }
+        block(element as V)
     }
 }
-
-
